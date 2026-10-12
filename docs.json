@@ -38,7 +38,8 @@
               "product/chto-takoe-bilem",
               "product/roadmap",
               "product/open-core",
-              "product/brand"
+              "product/brand",
+              "product/menu-uslug"
             ]
           },
           {
@@ -51,6 +52,14 @@
               "decisions/0005-put-k-kommercii",
               "decisions/0006-prava-v-1c",
               "decisions/0007-publichnyj-repo-mit"
+            ]
+          },
+          {
+            "group": "Голос клиента",
+            "icon": "comments",
+            "pages": [
+              "golos/index",
+              "golos/respondenty"
             ]
           }
         ]
