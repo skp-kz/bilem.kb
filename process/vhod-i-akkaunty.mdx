@@ -1,0 +1,40 @@
+---
+title: "Вход в кабинет и аккаунты компании"
+sidebarTitle: "Вход и аккаунты"
+description: "Где зарегистрирован вход «Bilem.ai» (GitHub, Microsoft, Google, Facebook), аккаунт Microsoft компании и Partner Center. Без секретов."
+icon: "key"
+---
+
+Справочник: что и где зарегистрировано для входа в кабинет app.bilem.ai и на какую учётную запись. **Пароли и секреты — только в менеджере паролей Славы**, здесь их нет. Юридические ссылки — [решение 0015](/decisions/0015-yuridicheskie-ssylki).
+
+## Аккаунт Microsoft компании
+
+| | |
+| --- | --- |
+| Учётная запись для входа | `admin@bilem.ai` (Global Administrator) |
+| Tenant ID | `847ba07d-b2fc-462e-a829-c2be76b8c187` |
+| Домен | `bilem.ai` — подтверждён 20.10.2026, TXT `MS=ms79566155` в Cloudflare (не удалять) |
+| Почта | `admin@bilem.ai` — Cloudflare Email Routing → почта Славы |
+| В том же тенанте | подпись кода Azure (`bilem-ai-github-signing`), см. [решение 0012](/decisions/0012-podpis-koda) |
+
+Входить под `admin@bilem.ai` в отдельном (инкогнито) окне: в основном остаётся личная учётная запись Славы.
+
+## Microsoft AI Cloud Partner Program
+
+- 20.10.2026 — регистрация **SKP.KZ LLC** под `admin@bilem.ai`: компания и адрес — как в Certificate of Formation (Texas, 09.03.2026); принят Microsoft Customer Agreement; карта добавлена (списаний нет, пока ничего не куплено).
+- **Ждём:** письмо на `admin@bilem.ai` и проверку компании Microsoft (1–5 рабочих дней).
+- **После одобрения:** Partner ID (Partner Center → Account settings → Identifiers) → вписать сюда → привязать к приложению Bilem.ai (Branding → Publisher verification) под `admin@bilem.ai` — уберёт метку «unverified» в окне входа Microsoft.
+- Partner ID: _ещё нет_
+
+## Вход «Bilem.ai» у провайдеров
+
+Все приложения ведут в Auth0, тенант **`bilem`** (EU), адрес возврата `https://bilem.eu.auth0.com/login/callback`. Ключи вставлены в Auth0 → Authentication → Social.
+
+| Провайдер | Где | Client ID | Статус |
+| --- | --- | --- | --- |
+| GitHub | организация `skp-kz` → OAuth Apps → «Bilem.ai» | `Ov23lizgKAgdWsRTRaWZ` | работает, логотип есть; только e-mail |
+| Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai`, право только User.Read; секрет на 24 месяца — продлить до 10.2028; ждёт Partner ID |
+| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | — | экран согласия создан (External); клиент для Auth0 — в работе |
+| Facebook | Meta for Developers | — | не начато |
+
+Правило: у провайдеров просим только профиль и e-mail — никаких прав на почту, файлы и репозитории.
