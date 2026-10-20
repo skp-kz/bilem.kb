@@ -14,13 +14,12 @@ icon: "key"
 - Свои OAuth-приложения «Bilem.ai» у всех четырёх провайдеров — GitHub, Microsoft, Google, Facebook. Вход проверен у каждого. Facebook опубликован (Live) 20.10.2026.
 - Свой домен входа `login.bilem.ai` (Auth0 Custom Domain): в окне Google больше нет «auth0.com».
 - Юридические страницы опубликованы: `/privacy/`, `/terms/`, `/data-deletion/` (требование Meta), ссылка «Конфиденциальность» в подвале сайта, на экране входа — «условия и политика».
-- Microsoft: тенант с доменами `bilem.ai` и `skp.kz`; **профиль SKP.KZ LLC в Partner Center проверен** (Partner ID `7179795`).
+- Microsoft: тенант с доменами `bilem.ai` и `skp.kz`; профиль SKP.KZ LLC в Partner Center проверен (Partner ID `7179795`); **издатель приложения Bilem.ai подтверждён** (синяя галочка).
 - Google: домен `bilem.ai` подтверждён в Search Console.
 - Карточка #51 на доске Prod (bilem.dev) — AWS SES и шаг «email + код» в онбординге.
 
 **Осталось:**
 
-- Microsoft — Publisher verification в Entra с Partner ID `7179795`.
 - Google — повторная проверка бренда не раньше 21.10.2026 (Google просит выждать 24 ч после подтверждения домена).
 
 ## Аккаунт Microsoft компании
@@ -39,8 +38,8 @@ icon: "key"
 
 - 20.10.2026 — регистрация **SKP.KZ LLC** под `admin@bilem.ai`: компания и адрес — как в Certificate of Formation (Texas, 09.03.2026); принят Microsoft Customer Agreement; карта добавлена (списаний нет, пока ничего не куплено). Рабочая почта для проверки — `slava@skp.kz`. Документы загружены, типы документов Слава исправил.
 - 20.10.2026 — **профиль проверен** Microsoft (письмо «We've verified your profile»).
-- **Partner ID: `7179795`**
-- **Дальше:** Entra под `admin@bilem.ai` → App registrations → Bilem.ai → Branding & properties → Publisher verification → ввести `7179795` → Verify and save. Уберёт метку «unverified» в окне входа Microsoft.
+- **Partner ID (MPN ID): `7179795`**
+- 20.10.2026 — Publisher verification сделана: Entra → App registrations → Bilem.ai → Branding & properties → MPN ID `7179795`, синяя галочка. Снимает запрет Microsoft на согласие пользователей чужих организаций для новых multitenant-приложений и метку «unverified». Имя издателя («Publisher display name») подтянется позже — кнопка «Check for updates».
 - Решить позже: куда в итоге пересылать `admin@bilem.ai`.
 
 ## Вход «Bilem.ai» у провайдеров
@@ -50,7 +49,7 @@ icon: "key"
 | Провайдер | Где | Client ID / App ID | Статус |
 | --- | --- | --- | --- |
 | GitHub | организация `skp-kz` → OAuth Apps → «Bilem.ai» | `Ov23lizgKAgdWsRTRaWZ` | работает, логотип есть; только e-mail |
-| Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai`, право только User.Read; секрет на 24 месяца — продлить до 10.2028; Partner ID есть — сделать Publisher verification |
+| Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai` **подтверждён** (MPN `7179795`); право только User.Read; секрет на 24 месяца — продлить до 10.2028 |
 | Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает, опубликовано (In production); брендинг bilem.ai, /privacy/, /terms/; домен bilem.ai подтверждён в Search Console 20.10 (TXT `google-site-verification` в Cloudflare — не удалять); **21.10 или позже:** Branding → View issues → «I have fixed the issues» → Proceed |
 | Facebook | Meta for Developers → «Bilem.ai», бизнес-портфолио «Скорая компьютерная. Алматы» (верифицировано) | `1593606238484275` | **работает, опубликовано (Live) 20.10.2026**; email приходит подтверждённым; иконка, /privacy/, /terms/, /data-deletion/, домен bilem.ai, категория Business and pages; права public_profile + email (App Review не нужен) |
 
@@ -62,7 +61,7 @@ Facebook не отдаёт почту, если аккаунт заведён п
 
 ## Что дальше
 
-1. Microsoft: Publisher verification с Partner ID `7179795`.
-2. Google: 21.10 или позже — «I have fixed the issues» в Branding; затем доступ Арману к Search Console.
+1. Google: 21.10 или позже — «I have fixed the issues» в Branding; затем доступ Арману к Search Console.
+2. Microsoft: через день-два «Check for updates» в Publisher verification — чтобы появилось имя издателя.
 3. AWS SES: аккаунт и домен → шаг «email + код» (ТЗ Земле), карточка #51.
 4. Auth0: тег окружения тенанта → Production; позже убрать старые адреса `bilem.eu.auth0.com`.
