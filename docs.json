@@ -138,7 +138,8 @@
               "stand/agent-app-v03",
               "stand/agent-app-v03-log",
               "stand/agent-platform-detect",
-              "stand/pervyj-klient-darya"
+              "stand/pervyj-klient-darya",
+              "stand/agent-cloud-mode"
             ]
           },
           {
