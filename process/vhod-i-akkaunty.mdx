@@ -7,34 +7,63 @@ icon: "key"
 
 Справочник: что и где зарегистрировано для входа в кабинет app.bilem.ai и на какую учётную запись. **Пароли и секреты — только в менеджере паролей Славы**, здесь их нет. Юридические ссылки — [решение 0015](/decisions/0015-yuridicheskie-ssylki).
 
+## Статус на 20.10.2026
+
+**Сделано за день:**
+
+- Свои OAuth-приложения «Bilem.ai» у всех четырёх провайдеров — GitHub, Microsoft, Google, Facebook. Вход проверен у каждого.
+- Свой домен входа `login.bilem.ai` (Auth0 Custom Domain): в окне Google больше нет «auth0.com».
+- Юридические страницы опубликованы: `/privacy/`, `/terms/`, `/data-deletion/` (требование Meta), ссылка «Конфиденциальность» в подвале сайта, на экране входа — «условия и политика».
+- Microsoft: тенант с доменами `bilem.ai` и `skp.kz`, заявка SKP.KZ LLC в Partner Center подана.
+- Карточка #51 на доске Prod (bilem.dev) — AWS SES и шаг «email + код» в онбординге.
+
+**Ждём:**
+
+- Microsoft — проверку компании в Partner Center → Partner ID → Publisher verification.
+- Google — проверку бренда (после подтверждения домена в Search Console).
+- Facebook — Publish в Meta (делает Слава).
+
 ## Аккаунт Microsoft компании
 
 | | |
 | --- | --- |
 | Учётная запись для входа | `admin@bilem.ai` (Global Administrator) |
 | Tenant ID | `847ba07d-b2fc-462e-a829-c2be76b8c187` |
-| Домен | `bilem.ai` — подтверждён 20.10.2026, TXT `MS=ms79566155` в Cloudflare (не удалять) |
-| Почта | `admin@bilem.ai` — Cloudflare Email Routing → почта Славы |
+| Домены | `bilem.ai` (TXT `MS=ms79566155`) и `skp.kz` (TXT `MS=ms50115707`) — оба подтверждены 20.10.2026, записи в Cloudflare не удалять |
+| Почта | `admin@bilem.ai` — Cloudflare Email Routing → `slava@skp.kz` (временно; письма Microsoft на пересылку не доходили) |
 | В том же тенанте | подпись кода Azure (`bilem-ai-github-signing`), см. [решение 0012](/decisions/0012-podpis-koda) |
 
 Входить под `admin@bilem.ai` в отдельном (инкогнито) окне: в основном остаётся личная учётная запись Славы.
 
 ## Microsoft AI Cloud Partner Program
 
-- 20.10.2026 — регистрация **SKP.KZ LLC** под `admin@bilem.ai`: компания и адрес — как в Certificate of Formation (Texas, 09.03.2026); принят Microsoft Customer Agreement; карта добавлена (списаний нет, пока ничего не куплено).
-- **Ждём:** письмо на `admin@bilem.ai` и проверку компании Microsoft (1–5 рабочих дней).
+- 20.10.2026 — регистрация **SKP.KZ LLC** под `admin@bilem.ai`: компания и адрес — как в Certificate of Formation (Texas, 09.03.2026); принят Microsoft Customer Agreement; карта добавлена (списаний нет, пока ничего не куплено). Рабочая почта для проверки — `slava@skp.kz`. Документы загружены, типы документов Слава исправил.
+- **Ждём:** проверку компании Microsoft (1–5 рабочих дней).
 - **После одобрения:** Partner ID (Partner Center → Account settings → Identifiers) → вписать сюда → привязать к приложению Bilem.ai (Branding → Publisher verification) под `admin@bilem.ai` — уберёт метку «unverified» в окне входа Microsoft.
 - Partner ID: _ещё нет_
+- Решить позже: куда в итоге пересылать `admin@bilem.ai`.
 
 ## Вход «Bilem.ai» у провайдеров
 
-Все приложения ведут в Auth0, тенант **`bilem`** (EU). **Свой домен входа — `login.bilem.ai`** (Auth0 Custom Domain, CNAME в Cloudflare `login` → `bilem-cd-mgn6d54ag5ofgqwl.edge.tenants.eu.auth0.com`, DNS only, не проксировать; подключён 20.10.2026; в кабинете `AUTH0_DOMAIN=login.bilem.ai`). Адреса возврата у провайдеров — оба: `https://login.bilem.ai/login/callback` (основной) и `https://bilem.eu.auth0.com/login/callback` (старый, можно убрать после проверки). Ключи вставлены в Auth0 → Authentication → Social.
+Все приложения ведут в Auth0, тенант **`bilem`** (EU). **Свой домен входа — `login.bilem.ai`** (Auth0 Custom Domain, CNAME в Cloudflare `login` → `bilem-cd-mgn6d54ag5ofgqwl.edge.tenants.eu.auth0.com`, DNS only, не проксировать; подключён 20.10.2026; в кабинете `AUTH0_DOMAIN=login.bilem.ai`, задеплоено, работает). Адреса возврата у провайдеров — оба: `https://login.bilem.ai/login/callback` (основной) и `https://bilem.eu.auth0.com/login/callback` (старый, можно убрать после проверки). Ключи вставлены в Auth0 → Authentication → Social.
 
-| Провайдер | Где | Client ID | Статус |
+| Провайдер | Где | Client ID / App ID | Статус |
 | --- | --- | --- | --- |
 | GitHub | организация `skp-kz` → OAuth Apps → «Bilem.ai» | `Ov23lizgKAgdWsRTRaWZ` | работает, логотип есть; только e-mail |
 | Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai`, право только User.Read; секрет на 24 месяца — продлить до 10.2028; ждёт Partner ID |
-| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает; брендинг (bilem.ai, /privacy/, /terms/), домены bilem.ai и auth0.com; ждёт Publish app и проверки бренда (логотип) |
-| Facebook | Meta for Developers | — | не начато |
+| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает, опубликовано (In production); брендинг bilem.ai, /privacy/, /terms/; проверка бренда не прошла («home page not registered») → добавлен домен bilem.ai в Search Console (TXT `google-site-verification` в Cloudflare); нажать Verify в Search Console, затем Branding → «I have fixed the issues» |
+| Facebook | Meta for Developers → «Bilem.ai», бизнес-портфолио «Скорая компьютерная. Алматы» (верифицировано) | `1593606238484275` | работает (проверено 20.10, email приходит подтверждённым); иконка, /privacy/, /terms/, /data-deletion/, домен bilem.ai, категория Business and pages; права public_profile + email; **ждёт Publish** (до публикации входят только админы приложения) |
 
 Правило: у провайдеров просим только профиль и e-mail — никаких прав на почту, файлы и репозитории.
+
+## Если провайдер не отдал e-mail
+
+Facebook не отдаёт почту, если аккаунт заведён по номеру телефона (номер Facebook не отдаёт вообще). Сейчас кабинет в этом случае отказывает. **Решение Славы 20.10.2026:** пускать всех — если e-mail не пришёл, следующий шаг онбординга «Ваш email» → код на почту → аккаунт. Отправка — AWS SES (`noreply@bilem.ai`, eu-central-1) через существующий SMTP-код Minidesk. Карточка #51 на доске Prod.
+
+## Что дальше
+
+1. Facebook: Publish в Meta — Слава.
+2. Google: Verify в Search Console → через сутки «I have fixed the issues» → доступ Арману к Search Console.
+3. Microsoft: дождаться проверки → Partner ID → Publisher verification.
+4. AWS SES: аккаунт и домен → шаг «email + код» (ТЗ Земле), карточка #51.
+5. Auth0: тег окружения тенанта → Production; позже убрать старые адреса `bilem.eu.auth0.com`.
