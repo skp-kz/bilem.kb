@@ -28,13 +28,13 @@ icon: "key"
 
 ## Вход «Bilem.ai» у провайдеров
 
-Все приложения ведут в Auth0, тенант **`bilem`** (EU), адрес возврата `https://bilem.eu.auth0.com/login/callback`. Ключи вставлены в Auth0 → Authentication → Social.
+Все приложения ведут в Auth0, тенант **`bilem`** (EU). **Свой домен входа — `login.bilem.ai`** (Auth0 Custom Domain, CNAME в Cloudflare `login` → `bilem-cd-mgn6d54ag5ofgqwl.edge.tenants.eu.auth0.com`, DNS only, не проксировать; подключён 20.10.2026; в кабинете `AUTH0_DOMAIN=login.bilem.ai`). Адреса возврата у провайдеров — оба: `https://login.bilem.ai/login/callback` (основной) и `https://bilem.eu.auth0.com/login/callback` (старый, можно убрать после проверки). Ключи вставлены в Auth0 → Authentication → Social.
 
 | Провайдер | Где | Client ID | Статус |
 | --- | --- | --- | --- |
 | GitHub | организация `skp-kz` → OAuth Apps → «Bilem.ai» | `Ov23lizgKAgdWsRTRaWZ` | работает, логотип есть; только e-mail |
 | Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai`, право только User.Read; секрет на 24 месяца — продлить до 10.2028; ждёт Partner ID |
-| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | — | экран согласия создан (External); клиент для Auth0 — в работе |
+| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает; брендинг (bilem.ai, /privacy/, /terms/), домены bilem.ai и auth0.com; ждёт Publish app и проверки бренда (логотип) |
 | Facebook | Meta for Developers | — | не начато |
 
 Правило: у провайдеров просим только профиль и e-mail — никаких прав на почту, файлы и репозитории.
