@@ -11,7 +11,7 @@ icon: "key"
 
 **Сделано за день:**
 
-- Свои OAuth-приложения «Bilem.ai» у всех четырёх провайдеров — GitHub, Microsoft, Google, Facebook. Вход проверен у каждого.
+- Свои OAuth-приложения «Bilem.ai» у всех четырёх провайдеров — GitHub, Microsoft, Google, Facebook. Вход проверен у каждого. Facebook опубликован (Live) 20.10.2026.
 - Свой домен входа `login.bilem.ai` (Auth0 Custom Domain): в окне Google больше нет «auth0.com».
 - Юридические страницы опубликованы: `/privacy/`, `/terms/`, `/data-deletion/` (требование Meta), ссылка «Конфиденциальность» в подвале сайта, на экране входа — «условия и политика».
 - Microsoft: тенант с доменами `bilem.ai` и `skp.kz`, заявка SKP.KZ LLC в Partner Center подана.
@@ -21,11 +21,10 @@ icon: "key"
 
 - Microsoft — проверку компании в Partner Center → Partner ID → Publisher verification.
 - Google — проверку бренда (после подтверждения домена в Search Console).
-- Facebook — Publish в Meta (делает Слава).
 
 ## Аккаунт Microsoft компании
 
-| | |
+|  |  |
 | --- | --- |
 | Учётная запись для входа | `admin@bilem.ai` (Global Administrator) |
 | Tenant ID | `847ba07d-b2fc-462e-a829-c2be76b8c187` |
@@ -52,7 +51,7 @@ icon: "key"
 | GitHub | организация `skp-kz` → OAuth Apps → «Bilem.ai» | `Ov23lizgKAgdWsRTRaWZ` | работает, логотип есть; только e-mail |
 | Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai`, право только User.Read; секрет на 24 месяца — продлить до 10.2028; ждёт Partner ID |
 | Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает, опубликовано (In production); брендинг bilem.ai, /privacy/, /terms/; проверка бренда не прошла («home page not registered») → добавлен домен bilem.ai в Search Console (TXT `google-site-verification` в Cloudflare); нажать Verify в Search Console, затем Branding → «I have fixed the issues» |
-| Facebook | Meta for Developers → «Bilem.ai», бизнес-портфолио «Скорая компьютерная. Алматы» (верифицировано) | `1593606238484275` | работает (проверено 20.10, email приходит подтверждённым); иконка, /privacy/, /terms/, /data-deletion/, домен bilem.ai, категория Business and pages; права public_profile + email; **ждёт Publish** (до публикации входят только админы приложения) |
+| Facebook | Meta for Developers → «Bilem.ai», бизнес-портфолио «Скорая компьютерная. Алматы» (верифицировано) | `1593606238484275` | **работает, опубликовано (Live) 20.10.2026**; email приходит подтверждённым; иконка, /privacy/, /terms/, /data-deletion/, домен bilem.ai, категория Business and pages; права public_profile + email (App Review не нужен) |
 
 Правило: у провайдеров просим только профиль и e-mail — никаких прав на почту, файлы и репозитории.
 
@@ -62,8 +61,7 @@ Facebook не отдаёт почту, если аккаунт заведён п
 
 ## Что дальше
 
-1. Facebook: Publish в Meta — Слава.
-2. Google: Verify в Search Console → через сутки «I have fixed the issues» → доступ Арману к Search Console.
-3. Microsoft: дождаться проверки → Partner ID → Publisher verification.
-4. AWS SES: аккаунт и домен → шаг «email + код» (ТЗ Земле), карточка #51.
-5. Auth0: тег окружения тенанта → Production; позже убрать старые адреса `bilem.eu.auth0.com`.
+1. Google: Verify в Search Console → через сутки «I have fixed the issues» → доступ Арману к Search Console.
+2. Microsoft: дождаться проверки → Partner ID → Publisher verification.
+3. AWS SES: аккаунт и домен → шаг «email + код» (ТЗ Земле), карточка #51.
+4. Auth0: тег окружения тенанта → Production; позже убрать старые адреса `bilem.eu.auth0.com`.
