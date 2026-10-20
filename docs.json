@@ -60,7 +60,8 @@
               "decisions/0011-csharp-net48",
               "decisions/0012-podpis-koda",
               "decisions/0013-belyj-spisok-zapisi",
-              "decisions/0014-pochta-predohraniteli"
+              "decisions/0014-pochta-predohraniteli",
+              "decisions/0015-bez-parolya-administratora"
             ]
           },
           {
