@@ -141,7 +141,8 @@
               "stand/pervyj-klient-darya",
               "stand/agent-cloud-mode",
               "stand/cloud-channel-protocol",
-              "stand/vozduh-cloud-side"
+              "stand/vozduh-cloud-side",
+              "stand/test-svyazi-vozduh-zemlya"
             ]
           },
           {
