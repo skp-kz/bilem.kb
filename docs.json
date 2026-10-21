@@ -140,7 +140,8 @@
               "stand/agent-platform-detect",
               "stand/pervyj-klient-darya",
               "stand/agent-cloud-mode",
-              "stand/cloud-channel-protocol"
+              "stand/cloud-channel-protocol",
+              "stand/vozduh-cloud-side"
             ]
           },
           {
