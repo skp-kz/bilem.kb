@@ -169,6 +169,12 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "проект VINAMP SKP KZ",
+        "pages": [
+          "projects/vinamp-skp-kz/overview"
+        ]
       }
     ],
     "global": {
