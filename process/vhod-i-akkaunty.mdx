@@ -1,26 +1,31 @@
 ---
 title: "Вход в кабинет и аккаунты компании"
 sidebarTitle: "Вход и аккаунты"
-description: "Где зарегистрирован вход «Bilem.ai» (GitHub, Microsoft, Google, Facebook), аккаунт Microsoft компании и Partner Center. Без секретов."
+description: "Где зарегистрирован вход «Bilem.ai» (GitHub, Microsoft, Google, Facebook, скоро Apple), аккаунт Microsoft компании и Partner Center. Без секретов."
 icon: "key"
 ---
 
 Справочник: что и где зарегистрировано для входа в кабинет app.bilem.ai и на какую учётную запись. **Пароли и секреты — только в менеджере паролей Славы**, здесь их нет. Юридические ссылки — [решение 0015](/decisions/0015-yuridicheskie-ssylki).
 
-## Статус на 20.10.2026
+**Принцип (Слава, 23.10.2026):** у нас нет ни логинов, ни паролей пользователей — вход только через внешних провайдеров (Google, Microsoft, Facebook, GitHub, затем Apple). Пароли, 2FA и восстановление аккаунта — на их стороне; нет пароля — нет риска утечки. LinkedIn не нужен. Политику восстановления доступа (если человек потерял аккаунт провайдера) — продумать позже.
 
-**Сделано за день:**
+## Статус на 23.10.2026
 
-- Свои OAuth-приложения «Bilem.ai» у всех четырёх провайдеров — GitHub, Microsoft, Google, Facebook. Вход проверен у каждого. Facebook опубликован (Live) 20.10.2026.
-- Свой домен входа `login.bilem.ai` (Auth0 Custom Domain): в окне Google больше нет «auth0.com».
-- Юридические страницы опубликованы: `/privacy/`, `/terms/`, `/data-deletion/` (требование Meta), ссылка «Конфиденциальность» в подвале сайта, на экране входа — «условия и политика».
-- Microsoft: тенант с доменами `bilem.ai` и `skp.kz`; профиль SKP.KZ LLC в Partner Center проверен (Partner ID `7179795`); **издатель приложения Bilem.ai подтверждён** (синяя галочка).
-- Google: домен `bilem.ai` подтверждён в Search Console.
-- Карточка #51 на доске Prod (bilem.dev) — AWS SES и шаг «email + код» в онбординге.
+**Все четыре провайдера закрыты:**
 
-**Осталось:**
+- GitHub, Microsoft, Google, Facebook — свои OAuth-приложения «Bilem.ai», вход проверен у каждого.
+- **Google: бренд проверен и опубликован 23.10.2026** (Branding → Publish branding) — на экране входа «Bilem.ai» с логотипом.
+- Facebook опубликован (Live) 20.10.2026. Microsoft — издатель подтверждён (синяя галочка, MPN `7179795`).
+- Свой домен входа `login.bilem.ai` (Auth0 Custom Domain).
+- Юридические страницы: `/privacy/`, `/terms/`, `/data-deletion/`.
 
-- Google — повторная проверка бренда не раньше 21.10.2026 (Google просит выждать 24 ч после подтверждения домена).
+**Осталось (не блокирует вход):**
+
+1. **Apple** — добавить «Sign in with Apple»: нужен Apple Developer Program на SKP.KZ LLC (D-U-N-S, см. [решение 0012](/decisions/0012-podpis-koda)), Services ID, ключ, проверка домена bilem.ai, затем коннектор в Auth0.
+2. Microsoft — «Check for updates» в Publisher verification, чтобы подтянулось имя издателя.
+3. AWS SES — шаг «email + код» для тех, у кого провайдер не отдал почту (Facebook по номеру телефона), карточка #51.
+4. Auth0 — тег окружения тенанта → Production; убрать старые адреса возврата `bilem.eu.auth0.com`.
+5. Google — доступ Арману к Search Console.
 
 ## Аккаунт Microsoft компании
 
@@ -50,18 +55,12 @@ icon: "key"
 | --- | --- | --- | --- |
 | GitHub | организация `skp-kz` → OAuth Apps → «Bilem.ai» | `Ov23lizgKAgdWsRTRaWZ` | работает, логотип есть; только e-mail |
 | Microsoft | Entra → App registrations → «Bilem.ai» | `d4fb069e-7227-43bd-8a62-bf4af2af3dc4` | работает; издатель `bilem.ai` **подтверждён** (MPN `7179795`); право только User.Read; секрет на 24 месяца — продлить до 10.2028 |
-| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает, опубликовано (In production); брендинг bilem.ai, /privacy/, /terms/; домен bilem.ai подтверждён в Search Console 20.10 (TXT `google-site-verification` в Cloudflare — не удалять); **21.10 или позже:** Branding → View issues → «I have fixed the issues» → Proceed |
+| Google | Google Cloud, проект `bilem-512212` → Google Auth Platform | `104446443401-sp61rsvf1qr43tio0sspq94k1qu121t5.apps.googleusercontent.com` | работает, опубликовано (In production); **бренд проверен и опубликован 23.10.2026**; брендинг bilem.ai, /privacy/, /terms/; домен bilem.ai в Search Console (TXT `google-site-verification` в Cloudflare — не удалять) |
 | Facebook | Meta for Developers → «Bilem.ai», бизнес-портфолио «Скорая компьютерная. Алматы» (верифицировано) | `1593606238484275` | **работает, опубликовано (Live) 20.10.2026**; email приходит подтверждённым; иконка, /privacy/, /terms/, /data-deletion/, домен bilem.ai, категория Business and pages; права public_profile + email (App Review не нужен) |
+| Apple | — | — | **не подключён** — следующий провайдер (см. «Осталось») |
 
 Правило: у провайдеров просим только профиль и e-mail — никаких прав на почту, файлы и репозитории.
 
 ## Если провайдер не отдал e-mail
 
-Facebook не отдаёт почту, если аккаунт заведён по номеру телефона (номер Facebook не отдаёт вообще). Сейчас кабинет в этом случае отказывает. **Решение Славы 20.10.2026:** пускать всех — если e-mail не пришёл, следующий шаг онбординга «Ваш email» → код на почту → аккаунт. Отправка — AWS SES (`noreply@bilem.ai`, eu-central-1) через существующий SMTP-код Minidesk. Карточка #51 на доске Prod.
-
-## Что дальше
-
-1. Google: 21.10 или позже — «I have fixed the issues» в Branding; затем доступ Арману к Search Console.
-2. Microsoft: через день-два «Check for updates» в Publisher verification — чтобы появилось имя издателя.
-3. AWS SES: аккаунт и домен → шаг «email + код» (ТЗ Земле), карточка #51.
-4. Auth0: тег окружения тенанта → Production; позже убрать старые адреса `bilem.eu.auth0.com`.
+Facebook не отдаёт почту, если аккаунт заведён по номеру телефона (номер Facebook не отдаёт вообще). Сейчас кабинет в этом случае отказывает. **Решение Славы 20.10.2026:** пускать всех — если e-mail не пришёл, следующий шаг онбординга «Ваш email» → код на почту → аккаунт. Отправка — AWS SES (`noreply@bilem.ai`, eu-central-1) через существующий SMTP-код Minidesk. Карточка #51 на доске Prod. Apple тоже может прятать почту (relay `privaterelay.appleid.com`) — письма на такой адрес доходят, это нормально.
