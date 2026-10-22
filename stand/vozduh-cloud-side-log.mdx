@@ -1,0 +1,71 @@
+---
+title: "Воздух: журнал облачной стороны Bilem Cloud"
+sidebarTitle: "Воздух: журнал облака"
+description: "Что сделано на стороне облака (mcp.bilem.ai, кабинет), что проверено, команды Славе. Новые записи сверху."
+icon: "wind"
+---
+
+Задача — [облачная сторона Bilem Cloud](/stand/vozduh-cloud-side), стык — [протокол канала](/stand/cloud-channel-protocol). Новые записи сверху.
+
+## 22.10.2026 — канал агента и облачный MCP для ChatGPT/Claude (#59)
+
+**Статус:** сделано в коде, проверено локально, **не задеплоено**. Коммит `3f1be18` в `skp-kz/minidesk`.
+
+**Что сделано**
+
+- **Worker `bilem-mcp`** (`tools/bilem-mcp`) на `mcp.bilem.ai`:
+  - канал `wss://mcp.bilem.ai/agent/v1/channel` — Durable Object `AgentChannel` на компьютер (`idFromName(agent_id)`), SQLite, WebSocket Hibernation, поэтому простой ничего не стоит (Free);
+  - остальное `/agent/v1/*` (заявки, обмен кода, отключение) Worker проксирует в Pages `bilem-app` с `X-Bilem-Host: mcp.bilem.ai`.
+- **MCP организации** `https://mcp.bilem.ai/<org>/mcp/<секрет>` — Streamable HTTP, ответы JSON без SSE:
+  - методы `initialize`, `tools/list`, `tools/call`, `ping`;
+  - инструменты приходят от агента, только по активным базам этой организации (`cloud_bases.state = 'active'`); у агента — своя проверка;
+  - одна база — аргумента `base` нет; несколько — `base` обязателен, значения — slug'и баз;
+  - служебный инструмент `bilem_status` — базы и связь с компьютером;
+  - `send_*` из ChatGPT/Claude закрыт: у них нет белого списка (решение 20.10, п. 6);
+  - `caller.channel` — `chatgpt`/`claude` по клиенту, `caller.user` — `mcp-link:<id>`.
+- **Кабинет → 1С-Базы → Bilem Cloud → «ChatGPT и Claude»**:
+  - «Выпустить ссылку» — показывается один раз, в D1 только SHA-256, не больше 5 на организацию;
+  - «Отозвать» — ссылка перестаёт работать сразу;
+  - «Вызовы из ChatGPT и Claude» — последние вызовы.
+- **Аудит** `cloud_mcp_audit`: ссылка, канал, клиент, метод, инструмент, база, успех или ошибка (`offline`/`timeout`/`denied`/…), время в мс. Ответов 1С в журнале нет.
+- **Кабинет → агент сразу**:
+  - «Отключить» базу → `base_state revoked/cabinet` по каналу;
+  - «Удалить компьютер» → `base_state` по каждой базе, а если привязок не осталось — закрытие `4401`;
+  - Pages достаёт Durable Object через binding `AGENT_CHANNEL` (`script_name: bilem-mcp`).
+
+**Проверено:** `cd tools/bilem-mcp && node test.mjs` — 36 проверок: D1 на `node:sqlite`, эмулятор агента по протоколу.
+
+- канал: ключ и `4401`, `hello`/`welcome`, `ping`/`pong`, дедлайн и `cancel`, `4409`, `4429`, `base_state`, `bases`;
+- MCP: `initialize`, `tools/list`/`tools/call`, чужая организация → 401, `base` при нескольких базах, `send_document` → отказ, «не на связи», отзыв ссылки;
+- аудит без содержимого;
+- прокси `/agent/v1/*`.
+
+Старый тест `bilem-app/tools/test-cloud-connect.mjs` тоже проходит. Сборка кабинета проходит. На настоящем Cloudflare и с настоящим агентом **не проверено**: нет деплоя.
+
+**Отклонения от протокола** — вынесены на [страницу протокола](/stand/cloud-channel-protocol), раздел «Облачная сторона — статус»: `4409` вытесняет старое соединение, `reason: unknown` и `reason: agent`.
+
+**Команды Славе (по порядку)**
+
+1. Миграция D1: `cd ~/Documents/GitHub/minidesk/bilem-app && npx wrangler d1 execute bilem-app --remote --file=migrations/2026-10-22-cloud-mcp.sql`
+2. Если ещё не применена миграция #56: `cd ~/Documents/GitHub/minidesk/bilem-app && npx wrangler d1 execute bilem-app --remote --file=migrations/2026-10-22-cloud-connect.sql`
+3. Cloudflare → Pages `bilem-app` → Custom domains: убрать `mcp.bilem.ai`, если он там есть. Иначе он перебивает Worker.
+4. Деплой Worker (создаст custom domain `mcp.bilem.ai`): `cd ~/Documents/GitHub/minidesk/tools/bilem-mcp && npx wrangler deploy`
+5. Деплой кабинета (после Worker — binding на его Durable Object): Raycast `bilemapp` или `cd ~/Documents/GitHub/minidesk && ./deploy-bilem-app.sh`
+
+Новых секретов нет.
+
+**Как проверить**
+
+1. Агент на стенде Земли с базой, подключённой по #56, переподключается. В кабинете у компьютера «связь: только что».
+2. Кабинет → 1С-Базы → Bilem Cloud → «ChatGPT и Claude» → «Выпустить ссылку» → скопировать.
+3. Подключить ссылку:
+   - ChatGPT: Настройки → Приложения и коннекторы → Расширенные → Режим разработчика → Создать, без аутентификации;
+   - Claude: Настройки → Коннекторы → Добавить свой.
+4. Спросить: «остатки на счетах». Ответ приходит из учебной базы стенда, вызов виден в «Вызовы из ChatGPT и Claude».
+
+**Дальше**
+
+- OAuth через `login.bilem.ai` (DCR) вместо секретной ссылки — отдельной карточкой.
+- Шаг 3 — Telegram/WhatsApp в настоящую 1С через тот же канал (`_agent.js`).
+- Шаг 4 — пауза по тарифу.
+- Ограничение MCP по тарифу (Start — без MCP) пока не включено, чтобы не мешать тесту.
