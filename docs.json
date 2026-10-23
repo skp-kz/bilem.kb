@@ -143,7 +143,8 @@
               "stand/cloud-channel-protocol",
               "stand/vozduh-cloud-side",
               "stand/test-svyazi-vozduh-zemlya",
-              "stand/vozduh-cloud-side-log"
+              "stand/vozduh-cloud-side-log",
+              "stand/agent-zadaniya"
             ]
           },
           {
