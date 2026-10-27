@@ -1,0 +1,38 @@
+---
+title: "2026-10-26 · Контроль действий как product pattern"
+sidebarTitle: "26 октября 2026"
+description: "Короткий проверяемый срез: новые OpenCore-сигналы и adjacent finance workflow."
+tags:
+  - research
+  - OpenCore
+  - 1С
+  - finance-workflow
+---
+
+# 26 октября 2026 — контроль действий как product pattern
+
+**Сравнение с предыдущим срезом:** эти три источника не были зафиксированы в срезе 19 октября и в текущей карте Marketing. Это новые элементы нашей карты, а не утверждение, что все продукты созданы за неделю. Проверены первичные публичные страницы 26 октября 2026.
+
+## Подтверждённые находки
+
+| Название | Ссылка | Проверено | Что это и почему Bilem важно |
+| --- | --- | --- | --- |
+| 1C Connector for Claude | [GitHub / README](https://github.com/glxaoc/1c-claude-connector) | 26.10.2026 | MIT-расширение для Claude Desktop, читающее OData-данные 1С; README заявляет только GET, до трёх баз и SSH jump host для IP allowlist. Это близкий technical substitute для сценария «спросить живую 1С», поэтому Bilem важно отстраивать через казахстанский financial workflow, источник, подготовку действия и проверяемый журнал — не только read-only доступ. |
+| ComplyEaze Bridge | [GitHub / README](https://github.com/ComplyEaze/bridge) | 26.10.2026 | Apache-2.0 MCP-сервер для TallyPrime: читает учёт, готовит import-файл из банковской выписки; posting выключен по умолчанию, а при включении требует одобрения каждого ваучера. Это не 1С и не локальный игрок Центральной Азии, но сильный adjacent pattern: безопасный путь — read → proposal → human approval → действие. |
+| bsl-ls-mcp | [GitHub / README](https://github.com/Vladimirov-Maxim/bsl-ls-mcp) | 26.10.2026 | Новый MIT MCP-слой над BSL Language Server для статического анализа и навигации в коде 1С; проект создан 25.10.2026 и заявляет локальный listener по умолчанию. Это developer-layer, не buyer-конкурент Bilem, но ещё один сигнал, что MCP для 1С быстро становится commodity-инфраструктурой. |
+
+## Что не подтверждено
+
+В этом коротком открытом скане не найден новый публично подтверждённый packaged AI+1С продукт с локальным присутствием в Казахстане, Узбекистане или Кыргызстане. Это не доказательство отсутствия такого продукта: локальное присутствие, цены, интеграции и метрики без первичного источника не предполагаются.
+
+## Вывод и следующая гипотеза
+
+Сигнал недели — не новый local SKU, а повторяемость безопасной архитектуры: **read → proposal → approval → controlled action**. Гипотеза для Bilem: в публичном объяснении продукта надо показывать не «чат с 1С», а наблюдаемый путь от источника к черновику, подтверждению и журналу — с явной границей «учёт не меняется без человека».
+
+**На решение Славы:** после готовности первого OpenCore-демо решить, делать ли отдельную comparison-card «read-only connector vs. finance workflow» с 1C Connector и ComplyEaze как техническими/adjacent-референсами. Внешний outreach, комментарии и контакты не запускались.
+
+## Первичные источники
+
+- [1C Connector for Claude — README, установка и ограничения](https://github.com/glxaoc/1c-claude-connector)
+- [ComplyEaze Bridge — README, current release и модель approval](https://github.com/ComplyEaze/bridge)
+- [bsl-ls-mcp — README и статус проекта](https://github.com/Vladimirov-Maxim/bsl-ls-mcp)
